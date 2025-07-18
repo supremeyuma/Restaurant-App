@@ -6,6 +6,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\OrderScanController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,10 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/export', [OrderController::class, 'export'])->name('orders.export');
     Route::get('/orders/export-pdf', [OrderController::class, 'exportPdf'])->name('orders.export_pdf');
+
+    //Settings
+    Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
 
 
 
