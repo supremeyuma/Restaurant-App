@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\OrderScanController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Models\Setting;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,11 @@ use App\Http\Controllers\Admin\SettingController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/contact', function () {
+    $settings = Setting::firstOrFail();
+    return view('contact', compact('settings'));
+})->name('contact');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
