@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\OrderScanController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,10 +39,18 @@ Route::get('/cart', [OrderController::class, 'checkout'])->name('cart.checkout')
 Route::post('/pay', [OrderController::class, 'pay'])->name('pay');
 Route::get('/confirm', [OrderController::class, 'confirm'])->name('pay.confirm');
 
+//Admin Routes
 Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+
+    //scan route
     Route::get('/scan', [OrderScanController::class, 'scanner'])->name('admin.scan');
     Route::get('/scan/result/{code}', [OrderScanController::class, 'result'])->name('admin.scan.result');
     Route::post('/scan/complete', [OrderScanController::class, 'complete'])->name('admin.scan.complete');
 });
+
+Route::get('/track-order', [OrderTrackingController::class, 'index'])->name('track.index');
+Route::post('/track-order', [OrderTrackingController::class, 'track'])->name('track.check');
+
 
 require __DIR__.'/auth.php';
