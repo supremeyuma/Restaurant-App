@@ -40,13 +40,20 @@ Route::post('/pay', [OrderController::class, 'pay'])->name('pay');
 Route::get('/confirm', [OrderController::class, 'confirm'])->name('pay.confirm');
 
 //Admin Routes
-Route::prefix('admin')->middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
+    Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
 
     //scan route
-    Route::get('/scan', [OrderScanController::class, 'scanner'])->name('admin.scan');
-    Route::get('/scan/result/{code}', [OrderScanController::class, 'result'])->name('admin.scan.result');
-    Route::post('/scan/complete', [OrderScanController::class, 'complete'])->name('admin.scan.complete');
+    Route::get('/scan', [OrderScanController::class, 'scanner'])->name('scan');
+    Route::get('/scan/result/{code}', [OrderScanController::class, 'result'])->name('scan.result');
+    Route::post('/scan/complete', [OrderScanController::class, 'complete'])->name('scan.complete');
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/export', [OrderController::class, 'export'])->name('orders.export');
+    Route::get('/orders/export-pdf', [OrderController::class, 'exportPdf'])->name('orders.export_pdf');
+
+
+
 });
 
 Route::get('/track-order', [OrderTrackingController::class, 'index'])->name('track.index');
