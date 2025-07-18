@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,5 +32,9 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::post('/cart/save', [MenuController::class, 'saveCart'])->name('cart.save');
+
+Route::get('/cart', [OrderController::class, 'checkout'])->name('cart.checkout');
+Route::post('/pay', [OrderController::class, 'pay'])->name('pay');
+Route::get('/confirm', [OrderController::class, 'confirm'])->name('pay.confirm');
 
 require __DIR__.'/auth.php';
