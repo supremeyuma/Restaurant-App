@@ -1,4 +1,4 @@
-<x-layouts.admin>
+<x-layouts.app>
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">All Orders</h2>
 
@@ -54,8 +54,15 @@
                 <tbody>
                     @foreach ($orders as $order)
                         <tr class="border-b dark:border-gray-700">
-                            <td class="px-4 py-2 font-mono">{{ $order->code }}</td>
-                            <td class="px-4 py-2 capitalize">{{ $order->status }}</td>
+                            <td class="py-2 font-mono text-indigo-600">
+                                <a href="{{ route('admin.orders.show', $order->id) }}">{{ $order->code }}</a>
+                            </td>
+
+                            <td class="px-4 py-2 capitalize">{{ $order->status }}
+                                <p class="text-sm text-white capitalize bg-{{ $statusColor[$status] }}-500 rounded px-2 py-1 inline-block">
+                                    {{ $status }}
+                                </p>
+                            </td>
                             <td class="px-4 py-2 font-semibold">₦{{ number_format($order->total, 2) }}</td>
                             <td class="px-4 py-2 text-gray-500">{{ $order->created_at->diffForHumans() }}</td>
                         </tr>
@@ -68,4 +75,4 @@
             {{ $orders->withQueryString()->links() }}
         </div>
     </div>
-</x-layouts.admin>
+</x-layouts.app>

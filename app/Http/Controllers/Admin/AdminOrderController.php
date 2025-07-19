@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class OrderController extends Controller
+class AdminOrderController extends Controller
 {
     public function index(Request $request)
     {

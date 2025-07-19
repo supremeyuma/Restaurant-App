@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\OrderScanController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\AdminOrderController;
 use App\Models\Setting;
 
 /*
@@ -48,16 +49,16 @@ Route::get('/confirm', [OrderController::class, 'confirm'])->name('pay.confirm')
 
 //Admin Routes
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
-    Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //scan route
     Route::get('/scan', [OrderScanController::class, 'scanner'])->name('scan');
     Route::get('/scan/result/{code}', [OrderScanController::class, 'result'])->name('scan.result');
     Route::post('/scan/complete', [OrderScanController::class, 'complete'])->name('scan.complete');
 
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/export', [OrderController::class, 'export'])->name('orders.export');
-    Route::get('/orders/export-pdf', [OrderController::class, 'exportPdf'])->name('orders.export_pdf');
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/export', [AdminOrderController::class, 'export'])->name('orders.export');
+    Route::get('/orders/export-pdf', [AdminOrderController::class, 'exportPdf'])->name('orders.export_pdf');
 
     //Settings
     Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
