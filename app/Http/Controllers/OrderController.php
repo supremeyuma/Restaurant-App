@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\Item;
 use GuzzleHttp\Client; // Import Guzzle Client
 use Carbon\Carbon;
+use App\Models\Setting;
 
 class OrderController extends Controller
 {
@@ -18,8 +19,10 @@ class OrderController extends Controller
         if (empty($cart)) {
             return redirect('/menu')->with('error', 'Your cart is empty.');
         }
+        $deliveryFee = Setting('delivery_fee', 2500); // fallback to 500 if not set
+        $deliveryEnabled = setting('delivery_enabled');
 
-        return view('order.checkout', compact('cart'));
+        return view('order.checkout', compact('cart', 'deliveryFee', 'deliveryEnabled'));
     }
 
     public function pay(Request $request)
@@ -27,11 +30,18 @@ class OrderController extends Controller
         $cart = session('cart', []);
         $total = collect($cart)->sum(fn($i) => $i['qty'] * $i['price']);
 
-        if ($total <= 0) {
-            return redirect()->back()->with('error', 'Cannot process an empty or zero-value order.');
+        if (empty($cart)) {
+            return redirect()->route('menu')->with('error', 'Your cart is empty.');
         }
 
-        $pickup_code = strtoupper(Str::random(6));
+        // Validate inputs
+        $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'phone' => 'required_if:address,!=,null|string|max:20',
+            'address' => 'nullable|string|max:500',
+        ]);
+
+        $isDelivery = $request->has('address') && $request->filled('address');
 
         // Create the order first
         $order = Order::create([
@@ -40,8 +50,10 @@ class OrderController extends Controller
             'email' => $request->email, // Assuming you add email to your checkout form and Order model
             'total' => $total,
             'status' => 'pending', // Status is pending until verified by Paystack
-            'pickup_code' => $pickup_code,
-            'reference' => 'ENT-' . Str::uuid(), // Generate a unique reference early
+            'pickup_code' => strtoupper(Str::random(6)),
+            'address' => $validated['address'] ?? null,
+            'is_delivery' => $isDelivery,
+            'reference' => 'MOR-' . Str::uuid(), // Generate a unique reference early
         ]);
 
         foreach ($cart as $c) {

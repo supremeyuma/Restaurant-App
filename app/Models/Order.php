@@ -17,6 +17,8 @@ class Order extends Model
         'pickup_code',
         'note',
         'total',
+        'address',
+        'is_delivery',
         'payment_ref',
     ];
 

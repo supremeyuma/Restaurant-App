@@ -35,7 +35,11 @@ class SettingController extends Controller
                 Storage::delete($setting->logo_path);
             }
             $validated['logo_path'] = $request->file('logo')->store('logos', 'public');
-        }
+        };
+        
+        $setting->delivery_enabled = $request->boolean('delivery_enabled');
+        $setting->delivery_fee = $request->delivery_fee ?? 0;
+
 
         $setting->update($validated);
 

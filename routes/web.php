@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+Route::get('/menu/pre-order', [MenuController::class, 'preOrder'])->name('menu.pre-order');
 Route::post('/cart/save', [MenuController::class, 'saveCart'])->name('cart.save');
 
 Route::get('/cart', [OrderController::class, 'checkout'])->name('cart.checkout');

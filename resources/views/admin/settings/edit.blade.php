@@ -1,12 +1,12 @@
 <x-layouts.admin>
-    <div class="max-w-3xl mx-auto bg-white  p-6 rounded shadow">
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded shadow">
         <h2 class="text-2xl font-bold mb-6">Site Settings</h2>
 
         @if (session('success'))
             <div class="mb-4 text-green-600">{{ session('success') }}</div>
         @endif
 
-        <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data" class="space-y-4">
+        <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data" class="space-y-4" x-data="{ deliveryEnabled: {{ old('delivery_enabled', $setting->delivery_enabled) ? 'true' : 'false' }} }">
             @csrf
 
             <x-input-label value="Site Name" />
@@ -38,6 +38,29 @@
 
             <x-input-label value="WhatsApp Number or Link" />
             <x-text-input name="whatsapp" value="{{ old('whatsapp', $setting->whatsapp) }}" class="w-full" />
+
+            {{-- Delivery Toggle --}}
+            <div class="mt-6">
+                <label class="block text-sm font-medium mb-1">Enable Deliveries</label>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm font-medium" :class="{ 'text-gray-400': !deliveryEnabled, 'text-indigo-600 font-bold': deliveryEnabled }">Off</span>
+                    <button type="button"
+                        @click="deliveryEnabled = !deliveryEnabled"
+                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300"
+                        :class="deliveryEnabled ? 'bg-indigo-600' : 'bg-gray-300'">
+                        <span class="inline-block h-4 w-4 transform bg-white rounded-full transition-transform duration-300"
+                            :class="deliveryEnabled ? 'translate-x-6' : 'translate-x-1'"></span>
+                    </button>
+                    <span class="text-sm font-medium" :class="{ 'text-gray-400': !deliveryEnabled, 'text-indigo-600 font-bold': deliveryEnabled }">On</span>
+                </div>
+                <input type="hidden" name="delivery_enabled" :value="deliveryEnabled ? 1 : 0">
+            </div>
+
+            {{-- Delivery Fee Input --}}
+            <div x-show="deliveryEnabled" x-transition>
+                <x-input-label value="Delivery Fee (₦)" class="mt-4" />
+                <x-text-input type="number" step="0.01" name="delivery_fee" value="{{ old('delivery_fee', $setting->delivery_fee) }}" class="w-full" />
+            </div>
 
             <x-primary-button>Save Settings</x-primary-button>
         </form>

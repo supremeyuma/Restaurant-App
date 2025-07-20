@@ -23,9 +23,26 @@ class MenuController extends Controller
             }
         };
 
+        return view('menu.index', compact('categories',));
+    }
+
+    public function preOrder()
+    {
+        $categories = Category::with(['items' => function ($q) {
+            $q->where('is_available', true);
+        }])->orderBy('position')->get();
+
+        foreach ($categories as $category) {
+            foreach ($category->items as $item) {
+                $item->image_path = $item->image_path 
+                    ? Storage::url($item->image_path)
+                    : null;
+            }
+        };
+
         $cart = session('cart', []);
 
-        return view('menu.index', compact('categories', 'cart'));
+        return view('menu.pre-order', compact('categories', 'cart'));
     }
 
     public function saveCart(Request $request)
