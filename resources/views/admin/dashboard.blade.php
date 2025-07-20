@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layouts.admin>
     <div class="space-y-6">
         <h1 class="text-2xl font-bold">Dashboard</h1>
 
@@ -72,4 +72,4 @@
             </table>
         </div>
     </div>
-</x-layouts.app>
+</x-layouts.admin>

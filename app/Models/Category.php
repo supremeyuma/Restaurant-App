@@ -11,7 +11,7 @@ class Category extends Model
 
     protected $fillable = [
         'name', // Add 'name' here
-        'position,'
+        'position',
         // Add any other fields you want to allow mass assignment for
     ];
 

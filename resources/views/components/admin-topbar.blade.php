@@ -1,10 +1,24 @@
+@php
+    // Fetch the logo path from your settings table
+    // Adjust this line based on how your settings are structured.
+    // For example, if you have a single row with 'logo_path' column:
+    $appLogoPath = App\Models\Setting::first()->logo_path ?? null;
+
+    // Or if you have a key-value pair setting like 'app_logo_path':
+    // $appLogoPath = App\Models\Setting::where('key', 'app_logo_path')->first()->value ?? null;
+
+    // Make sure the path stored in the database is relative to storage/app/public
+    // e.g., 'logos/my_awesome_logo.png'
+@endphp
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="shrink-0 flex items-center">
+
                     <a href="{{ route('admin.dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" :logoPath="$appLogoPath" />
                     </a>
                 </div>
 

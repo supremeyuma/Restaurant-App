@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-layouts.guest>
     <div class="max-w-6xl mx-auto py-6 px-4" x-data="cartHandler()">
         <h1 class="text-2xl font-bold mb-4">Menu</h1>
 
@@ -82,4 +82,4 @@
             }
         }
     </script>
-</x-guest-layout>
+</x-layouts.guest>

@@ -34,7 +34,7 @@ class SettingController extends Controller
             if ($setting->logo_path) {
                 Storage::delete($setting->logo_path);
             }
-            $validated['logo_path'] = $request->file('logo')->store('logos');
+            $validated['logo_path'] = $request->file('logo')->store('logos', 'public');
         }
 
         $setting->update($validated);

@@ -1,5 +1,5 @@
-<x-layouts.app>
-    <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 p-6 rounded shadow">
+<x-layouts.admin>
+    <div class="max-w-3xl mx-auto bg-white  p-6 rounded shadow">
         <h2 class="text-2xl font-bold mb-6">Site Settings</h2>
 
         @if (session('success'))
@@ -42,4 +42,4 @@
             <x-primary-button>Save Settings</x-primary-button>
         </form>
     </div>
-</x-layouts.app>
+</x-layouts.admin>
