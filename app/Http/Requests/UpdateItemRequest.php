@@ -11,7 +11,7 @@ class UpdateItemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,8 +29,8 @@ class UpdateItemRequest extends FormRequest
             'description'       => 'nullable|string',
             'wait_time_minutes' => 'required|integer|min:1|max:120',
             'image'             => $this->isMethod('post')
-                                        ? 'nullable|image|max:2048' // create
-                                        : 'nullable|image|max:2048', // update
+                                        ? 'nullable|image|max:4096' // create
+                                        : 'nullable|image|max:4096', // update
             'is_available'      => 'sometimes|boolean',
         ];
     }

@@ -9,6 +9,17 @@ class Item extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = [
+        'name',
+        'category_id',
+        'price',
+        'description',
+        'image_path',
+        'wait_time_minutes',
+        'is_available',
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);

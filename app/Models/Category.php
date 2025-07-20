@@ -9,6 +9,12 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name', // Add 'name' here
+        'position,'
+        // Add any other fields you want to allow mass assignment for
+    ];
+
     public function items()
     {
         return $this->hasMany(Item::class);

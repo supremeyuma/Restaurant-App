@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Models\Setting;
+use App\Http\Controllers\Admin\ItemController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +52,8 @@ Route::get('/confirm', [OrderController::class, 'confirm'])->name('pay.confirm')
 //Admin Routes
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('items', ItemController::class);
+    Route::resource('categories', CategoryController::class);
 
     //scan route
     Route::get('/scan', [OrderScanController::class, 'scanner'])->name('scan');

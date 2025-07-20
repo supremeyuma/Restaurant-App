@@ -2,9 +2,9 @@
     <div class="max-w-xl mx-auto py-6">
         <h2 class="text-xl font-semibold mb-4">Create Category</h2>
 
-        <form method="POST" @method('PUT') action="{{ route('admin.categories.store') }}" class="space-y-4">
+        <form method="POST"  action="{{ route('admin.categories.update', $category->id) }}" class="space-y-4">
             @csrf
-
+            @method('PUT')
             <div>
                 <label class="block mb-1 font-medium">Name</label>
                 <input type="text" name="name" class="w-full border-gray-300 rounded shadow-sm" value="{{ old('name', $category->name) }}" required>

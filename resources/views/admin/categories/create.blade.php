@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layouts.admin>
     <div class="max-w-xl mx-auto py-6">
         <h2 class="text-xl font-semibold mb-4">Create Category</h2>
 
@@ -18,4 +18,4 @@
             <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-700">Save</button>
         </form>
     </div>
-</x-app-layout>
+</x-layouts.admin>

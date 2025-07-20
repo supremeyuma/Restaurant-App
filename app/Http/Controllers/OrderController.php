@@ -38,7 +38,7 @@ class OrderController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email, // Assuming you add email to your checkout form and Order model
-            'amount' => $total,
+            'total' => $total,
             'status' => 'pending', // Status is pending until verified by Paystack
             'pickup_code' => $pickup_code,
             'reference' => 'ENT-' . Str::uuid(), // Generate a unique reference early
@@ -48,8 +48,9 @@ class OrderController extends Controller
             OrderItem::create([
                 'order_id' => $order->id,
                 'item_id' => $c['id'],
-                'quantity' => $c['qty'],
-                'price' => $c['price'],
+                'item_name' => $c['name'],
+                'qty' => $c['qty'],
+                'unit_price' => $c['price'],
             ]);
         }
 

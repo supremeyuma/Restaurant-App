@@ -14,7 +14,11 @@ class Order extends Model
         'phone', 
         'amount', 
         'status', 
-        'pickup_code'];
+        'pickup_code',
+        'note',
+        'total',
+        'payment_ref',
+    ];
 
 
     public function items()

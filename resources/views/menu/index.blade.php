@@ -9,7 +9,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                     <template x-for="item in cat.items" :key="item.id">
                         <div class="border rounded shadow p-3 bg-white">
-                            <img :src="item.image_path" class="h-32 w-full object-cover rounded mb-2" x-show="item.image_path">
+                            <img :src=" item.image_path" class="h-32 w-full object-cover rounded mb-2" x-show="item.image_path">
                             <h3 class="font-semibold" x-text="item.name"></h3>
                             <p class="text-sm text-gray-500" x-text="'₦' + item.price.toLocaleString()"></p>
                             <p class="text-xs text-gray-400" x-text="item.wait_time_minutes + ' min wait'"></p>

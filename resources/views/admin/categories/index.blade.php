@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layouts.admin>
     <div class="max-w-4xl mx-auto py-6">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-xl font-semibold">All Categories</h1>
@@ -40,4 +40,4 @@
             </table>
         </div>
     </div>
-</x-app-layout>
+</x-layouts.admin>
