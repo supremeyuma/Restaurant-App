@@ -1,3 +1,55 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.active-drag-cursor {
+    cursor: grabbing !important; /* Ensure this overrides other cursor styles */
+}
+
+/* resources/css/app.css */
+
+/* Add this to your existing styles */
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+.modern-scroll::-webkit-scrollbar {
+    height: 8px; /* Make the scrollbar thin */
+    background-color: transparent; /* Make the track transparent */
+}
+
+/* Style the scrollbar thumb for Webkit */
+.modern-scroll::-webkit-scrollbar-thumb {
+    background-color: #cbd5e0; /* Light gray thumb */
+    border-radius: 4px; /* Rounded corners for the thumb */
+    border: 2px solid transparent; /* Gives a subtle border effect */
+    background-clip: padding-box; /* Ensures the border doesn't cut into the thumb color */
+}
+
+/* Style the scrollbar thumb on hover for Webkit */
+.modern-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #a0aec0; /* Darker gray on hover */
+}
+
+/* Hide scrollbar buttons (arrows) for Webkit */
+.modern-scroll::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+/* For Firefox */
+.modern-scroll {
+    scrollbar-width: thin; /* "auto" or "none" (none hides it completely) */
+    scrollbar-color: #cbd5e0 transparent; /* thumb color track color */
+}
+
+/* For Microsoft Edge (may or may not fully adopt Webkit styles without explicit prefixes) */
+/* No specific direct scrollbar-button hiding property for Edge beyond Webkit for common use */
+
+/* Cursor styles for drag-to-scroll (from previous step, just ensuring they are here) */
+.active-drag-cursor {
+    cursor: grabbing !important; /* Ensure this overrides other cursor styles */
+}
+/* This class will be applied to the scrollable containers */
+.drag-scrollable {
+    cursor: grab;
+}

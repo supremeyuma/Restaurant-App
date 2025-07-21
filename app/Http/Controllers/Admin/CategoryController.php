@@ -15,7 +15,8 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('admin.categories.create');
+        $categories = Category::whereNull('parent_id')->orderBy('position')->get();
+        return view('admin.categories.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -23,16 +24,20 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'position' => 'nullable|integer',
+            'parent_id' => 'nullable|integer',
         ]);
 
-        Category::create($request->only('name', 'position'));
+        Category::create($request->only('name', 'position', 'parent_id'));
 
         return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
     }
 
     public function edit(Category $category)
     {
-        return view('admin.categories.edit', compact('category'));
+        $categories = Category::whereNull('parent_id')
+            ->where('id', '!=', $category->id) // prevent assigning self as parent
+            ->get();
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     public function update(Request $request, Category $category)
@@ -40,9 +45,10 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'position' => 'nullable|integer',
+            'parent_id' => 'nullable|integer',
         ]);
 
-        $category->update($request->only('name', 'position'));
+        $category->update($request->only('name', 'position', 'parent_id'));
 
         return redirect()->route('admin.categories.index')->with('success', 'Category updated.');
     }

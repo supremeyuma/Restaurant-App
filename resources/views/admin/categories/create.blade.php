@@ -10,6 +10,14 @@
                 <input type="text" name="name" class="w-full border-gray-300 rounded shadow-sm" required>
             </div>
 
+            <x-input-label for="parent_id" value="Parent Category (optional)" />
+            <select name="parent_id" class="w-full rounded border mb-4">
+                <option value="">None (Top-Level)</option>
+                @foreach ($categories as $cat)
+                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                @endforeach
+            </select>
+
             <div>
                 <label class="block mb-1 font-medium">Position (optional)</label>
                 <input type="number" name="position" class="w-full border-gray-300 rounded shadow-sm">

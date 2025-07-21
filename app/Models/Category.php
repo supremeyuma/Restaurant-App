@@ -12,6 +12,7 @@ class Category extends Model
     protected $fillable = [
         'name', // Add 'name' here
         'position',
+        'parent_id',
         // Add any other fields you want to allow mass assignment for
     ];
 
@@ -19,5 +20,20 @@ class Category extends Model
     {
         return $this->hasMany(Item::class);
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function subcategories()
+{
+    return $this->hasMany(Category::class, 'parent_id');
+}
 
 }
