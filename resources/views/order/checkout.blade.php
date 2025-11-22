@@ -3,6 +3,13 @@
         <h1 class="text-xl font-bold mb-4">Checkout</h1>
 
         <form method="POST" action="{{ route('pay') }}">
+
+            @if (session('error'))
+                <div class="bg-red-100 text-red-700 p-2 rounded mb-4">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             @csrf
 
             {{-- Pickup / Delivery Toggle --}}
@@ -83,6 +90,8 @@
                     ? '{{ number_format(collect($cart)->sum(fn($i) => $i['qty'] * $i['price']) + $deliveryFee) }}'
                     : '{{ number_format(collect($cart)->sum(fn($i) => $i['qty'] * $i['price'])) }}'"></span>
             </div>
+
+
 
             <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 w-full">
                 Pay with Paystack

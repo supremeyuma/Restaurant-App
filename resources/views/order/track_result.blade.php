@@ -1,6 +1,7 @@
 <x-layouts.guest>
     <div class="max-w-lg mx-auto mt-12 p-6 bg-white rounded shadow">
-        <h2 class="text-2xl font-bold mb-4">Order Status</h2>
+        <h2 class="text-2xl font-bold mb-4">Order - {{ $order->pickup_code }}</h2>
+
 
         <p class="mb-2"><strong>Name:</strong> {{ $order->name }}</p>
         <p class="mb-2"><strong>Phone:</strong> {{ $order->phone }}</p>
@@ -13,7 +14,7 @@
         <h3 class="mt-6 font-semibold">Items:</h3>
         <ul class="list-disc pl-6 text-sm">
             @foreach ($order->items as $item)
-                <li>{{ $item->name }} x {{ $item->pivot->quantity }}</li>
+                <li>{{ $item->item_name }} x {{ $item->qty }}</li>
             @endforeach
         </ul>
     </div>

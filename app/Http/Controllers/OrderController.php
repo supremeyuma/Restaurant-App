@@ -37,24 +37,28 @@ class OrderController extends Controller
         // Validate inputs
         $validated = $request->validate([
             'name' => 'nullable|string|max:255',
-            'phone' => 'required_if:address,!=,null|string|max:20',
+            'phone' => 'required_if:address,!=""|string|max:20',
             'address' => 'nullable|string|max:500',
         ]);
 
         $isDelivery = $request->has('address') && $request->filled('address');
 
+        $pickupCode = strtoupper(Str::random(6));
+        $email = 'order-' . $pickupCode . '@noemail.com'; // Dummy email for Paystack'
+
         // Create the order first
         $order = Order::create([
             'name' => $request->name,
             'phone' => $request->phone,
-            'email' => $request->email, // Assuming you add email to your checkout form and Order model
             'total' => $total,
             'status' => 'pending', // Status is pending until verified by Paystack
-            'pickup_code' => strtoupper(Str::random(6)),
+            'pickup_code' => $pickupCode,
             'address' => $validated['address'] ?? null,
             'is_delivery' => $isDelivery,
             'reference' => 'MOR-' . Str::uuid(), // Generate a unique reference early
         ]);
+
+
 
         foreach ($cart as $c) {
             OrderItem::create([
@@ -75,12 +79,13 @@ class OrderController extends Controller
 
         try {
             $response = $client->post('https://api.paystack.co/transaction/initialize', [
+                'verify' => false,
                 'headers' => [
                     'Authorization' => 'Bearer ' . $paystackSecretKey,
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
-                    'email' => $request->email, // Use the user's email from the request
+                    'email' => $email, // Use the user's email from the request
                     'amount' => $total * 100, // Amount in kobo/cent
                     'reference' => $order->reference, // Use the generated unique reference
                     'callback_url' => $paystackCallbackUrl . '?order_id=' . $order->id, // Pass order ID for context
@@ -92,6 +97,8 @@ class OrderController extends Controller
             ]);
 
             $body = json_decode($response->getBody(), true);
+            \Log::info('PAYSTACK INIT RESPONSE', $body);
+
 
             if ($body['status'] && isset($body['data']['authorization_url'])) {
                 // Redirect user to Paystack's authorization URL
@@ -104,6 +111,8 @@ class OrderController extends Controller
             }
 
         } catch (\GuzzleHttp\Exception\RequestException $e) {
+            \Log::error('PAYSTACK INIT ERROR', ['message' => $e->getMessage()]);
+
             // Handle HTTP request errors (e.g., network issues, invalid API key)
             $order->status = 'failed';
             $order->save();

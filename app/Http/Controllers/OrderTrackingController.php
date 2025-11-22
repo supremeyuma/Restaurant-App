@@ -18,7 +18,9 @@ class OrderTrackingController extends Controller
             'code' => 'required|string'
         ]);
 
-        $order = Order::where('pickup_code', $request->code)->first();
+        $order = Order::with('items')
+            ->where('pickup_code', $request->code)
+            ->first();
 
         if (!$order) {
             return back()->withErrors(['code' => 'Order not found.']);
