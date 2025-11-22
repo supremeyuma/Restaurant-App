@@ -2,6 +2,16 @@
     <div class="max-w-3xl mx-auto bg-white p-6 rounded shadow">
         <h2 class="text-2xl font-bold mb-6">Site Settings</h2>
 
+        @if ($errors->any())
+            <div class="mb-4 text-red-600">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         @if (session('success'))
             <div class="mb-4 text-green-600">{{ session('success') }}</div>
         @endif
@@ -17,6 +27,12 @@
                 <img src="{{ Storage::url($setting->logo_path) }}" class="h-16 mb-2" alt="Logo">
             @endif
             <input type="file" name="logo" class="block w-full border rounded" />
+
+            <x-input-label value="Banner" />
+            @if ($setting->banner_path)
+                <img src="{{ Storage::url($setting->banner_path) }}" class="h-16 mb-2" alt="Banner">
+            @endif
+            <input type="file" name="banner" class="block w-full border rounded" />
 
             <x-input-label value="Contact Email" />
             <x-text-input name="email" value="{{ old('email', $setting->email) }}" class="w-full" />

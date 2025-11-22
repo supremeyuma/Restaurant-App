@@ -44,12 +44,16 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
-Route::get('/menu/pre-order', [MenuController::class, 'preOrder'])->name('menu.pre-order');
+Route::get('/pre-order', [MenuController::class, 'preOrder'])->name('menu.pre-order');
 Route::post('/cart/save', [MenuController::class, 'saveCart'])->name('cart.save');
 
-Route::get('/cart', [OrderController::class, 'checkout'])->name('cart.checkout');
+Route::get('/pre-order/cart', [OrderController::class, 'checkout'])->name('cart.checkout');
 Route::post('/pay', [OrderController::class, 'pay'])->name('pay');
 Route::get('/confirm', [OrderController::class, 'confirm'])->name('pay.confirm');
+/*Route::post('/cart/save', function(Request $request) {
+    session(['cart' => $request->cart]);
+    return response()->json(['status' => 'ok']);
+});*/
 
 //Admin Routes
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {

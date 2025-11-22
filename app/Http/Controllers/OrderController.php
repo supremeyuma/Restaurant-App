@@ -91,7 +91,7 @@ class OrderController extends Controller
                     'callback_url' => $paystackCallbackUrl . '?order_id=' . $order->id, // Pass order ID for context
                     'metadata' => [ // Optional: useful for additional context
                         'order_id' => $order->id,
-                        'customer_name' => $request->name,
+                        'pickupCode' => $pickupCode,
                     ],
                 ],
             ]);

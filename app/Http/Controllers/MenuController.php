@@ -11,12 +11,21 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $categories = Category::with(['subcategories', 'items' => function ($q) {
-            $q->where('is_available', true);
-        }])->whereNull('parent_id')->orderBy('position')->get();
+        $categories = Category::with([ 
+            'items', 
+            'subcategories' => function ($query) {
+                $query->with('items');
+            }])->whereNull('parent_id')->orderBy('position')->get();
 
         foreach ($categories as $category) {
             foreach ($category->items as $item) {
+                $item->image_path = $item->image_path;
+                    //? Storage::url($item->image_path)
+                    //: null;
+            }
+        };
+        foreach ($category->subcategories as $subcategory) {
+            foreach ($subcategory->items as $item) {
                 $item->image_path = $item->image_path 
                     ? Storage::url($item->image_path)
                     : null;
